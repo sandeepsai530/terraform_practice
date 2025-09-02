@@ -1,0 +1,21 @@
+pipeline {
+    tools {
+
+    }
+
+    parameters {
+
+    }
+
+    environment {
+
+    }
+
+    stages {
+        stage ('git checkou') {
+            steps {
+
+            }
+        }
+    }
+}
