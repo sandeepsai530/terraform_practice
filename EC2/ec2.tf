@@ -43,7 +43,7 @@ resource "aws_instance" "my_ec2" {
       "docker --version",
 
       #Install SonaQube
-      "docker build -d --name sonar -p 9000:9000 sonarqube:lts-community",
+      "docker run -d --name sonar -p 9000:9000 sonarqube:lts-community",
 
       #Install Trivy
       "sudo apt-get install -y wget apt-transport-https gnupg",
