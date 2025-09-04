@@ -1,0 +1,27 @@
+Issue:
+- During one of my monitoring shifts, I noticed in Grafana dashboards that the CPU usage on certain pods
+  in our EKS cluster was consistently hitting 95–100%. At the same time, CloudWatch alarms showed 
+  increased latency from our Application Load Balancer, and error rates started spiking.
+
+Investigation steps:
+- Checked kubectl get pods and saw frequent pod restarts due to OOMKilled.
+- Looked at application logs in OpenSearch/ELK → identified a memory leak in one of the microservices.
+- Verified Horizontal Pod Autoscaler (HPA) → it was scaling pods, but all replicas were still failing due to the same memory issue.
+- Coordinated with the development team, shared logs and traces (AWS X-Ray) to pinpoint the leak.
+
+Resolution:
+- As a quick fix, I updated the Kubernetes resource limits (CPU/memory) for the pod to reduce crash loops.
+- Rolled out a hotfix image via Jenkins pipeline → ECR → ArgoCD to EKS.
+- Monitored again in Grafana → CPU/memory stabilized, ALB latency dropped, error rate returned to normal.
+
+preventive action:
+- Added Prometheus alert rules for pod restarts and high memory usage.
+- Implemented SonarQube + Trivy scans in Jenkins to catch issues earlier.
+- Updated runbooks so future incidents could be resolved faster.
+
+Interview answer:
+once during monitoring, I noticed high CPU and pod restarts in EKS via Grafana and CloudWatch. After 
+checking logs, I found a memory leak in a microservice. I applied a temporary fix by adjusting K8s 
+resource limits and rolled out a patched Docker image via Jenkins + ArgoCD. Once the hotfix was deployed, 
+the application stabilized. Later, I set up additional Prometheus alerts and improved CI/CD scans to 
+prevent similar issues. This showed proactive monitoring and cross-team collaboration.

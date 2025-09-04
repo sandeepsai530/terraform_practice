@@ -1,0 +1,21 @@
+what kind of metrics do you work within your project?
+
+Infrastructure metrics
+- cpu & memory
+- Node Health
+- Pod metrics
+- cluster metrics
+Tools used: promethus + Grafana, cloudwatch (if on AWS), Datadog
+
+Application metrics
+- Request Metrics (Request count, latency, error rate)
+- Business Metrics (Signups, transactions, checkout success rate)
+- Custom Metrics (Cache hit/miss, queue depth, feature-specific counters)
+Tools: Prometheus client libraries, OpenTelemetry, NewRelic, Dynatrace
+
+CICD Pipeline metrics:
+- Build Metrics (Build duration, success/failure rate)
+- Test Metrics (Test pass/fail rate, coverage %, flaky tests)
+- Deployment Metrics (Deployment frequency, rollback count, rollout success rate)
+Tools: Jenkins build stats, GitLab CI/CD metrics, ArgoCD/Flux metrics
+
