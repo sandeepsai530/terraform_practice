@@ -1,0 +1,99 @@
+20+ Real-Time Jenkins/Build Scenarios for Interviews
+#	Scenario	STAR-Style Approach (Situation → Task → Action → Result)
+1	Build fails after a merge	
+    S: Merge triggered pipeline failure.
+    T: Identify why builds broke.
+    A: Checked logs → dependency conflict. Ran PR build locally. Fixed versions in pom.xml.
+    R: Subsequent builds passed; prevented similar failures by enforcing PR builds.
+2	Build taking too long	
+    S: Build time increased to 45 mins.
+    T: Optimize pipeline.
+    A: Enabled Docker layer caching, parallelized tests, used ephemeral Kubernetes agents.
+    R: Build time reduced to 20 mins.
+3	Jenkins queue always full	
+    S: Multiple builds waiting in queue.
+    T: Reduce queue wait time.
+    A: Added more ephemeral agents in K8s, labeled agents for high-priority builds.
+    R: Concurrent builds increased from 3 → 6.
+4	Pipeline not triggering	
+    S: Commit did not trigger pipeline.
+    T: Ensure builds run automatically.
+    A: Verified GitHub webhook, branch filter, and credentials. Fixed SCM access token.
+    R: Commits triggered builds reliably.
+5	Artifact not deploying	
+    S: Docker image built but failed in EKS.
+    T: Fix deployment.
+    A: Checked ECR permissions, imagePullSecrets, ArgoCD manifests.
+    R: Deployment succeeded; artifacts correctly pulled.
+6	Multiple microservices failing	
+    S: 3 microservices failing simultaneously.
+    T: Identify root cause.
+    A: Shared library update caused failures; reverted library, reran builds.
+    R: Services stabilized; added version pinning.
+7	Nightly regression fails intermittently	
+    S: Nightly builds fail randomly.
+    T: Stabilize pipeline.
+    A: Isolated flaky tests, added retries, standardized test data.
+    R: Nightly regression became consistent.
+8	Secrets inaccessible during build	
+    S: Jenkins cannot access deployment secrets.
+    T: Enable secure access.
+    A: Configured AWS IAM roles, injected Vault secrets at runtime.
+    R: Builds accessed secrets securely, no hard-coded credentials.
+9	Docker build fails	
+    S: Docker image build failed on agent.
+    T: Identify issue.
+    A: Checked Docker daemon, permissions, Dockerfile syntax.
+    R: Fixed agent config; builds succeeded.
+10	Dependency resolution failure	S: Maven build fails for missing dependencies.
+    T: Restore build stability.
+    A: Cleared local cache, updated repo URLs.
+    R: Build succeeded; added automated dependency validation.
+11	Resource/Memory issues	S: Build fails with OutOfMemoryError.
+    T: Avoid resource failure.
+    A: Increased agent CPU/memory, split tests into stages.
+    R: Builds stable; memory errors eliminated.
+12	Build artifact version mismatch	S: Wrong version deployed to staging.
+    T: Fix versioning.
+    A: Standardized semantic versioning in Jenkins pipeline, tagged artifacts correctly.
+    R: Correct version deployed consistently.
+13	Failed tests block pipeline	S: Unit tests failing, pipeline blocked.
+    T: Identify cause.
+    A: Debugged failed tests, fixed test data, ran locally before commit.
+    R: Builds pass; no false pipeline failures.
+14	Builds failing due to environment mismatch	S: Prod build fails but dev works.
+    T: Ensure consistency.
+    A: Used Docker containerized builds, standardized env variables.
+    R: Build now consistent across environments.
+15	SCM merge conflicts causing failure	S: Jenkins fails due to merge conflicts.
+    T: Resolve conflicts.
+    A: Identified conflicting files, resolved locally, updated PR.
+    R: Merge successful; pipeline triggered builds correctly.
+16	Pipeline stage skipped unintentionally	S: Deployment stage skipped in Jenkinsfile.
+    T: Ensure proper execution.
+    A: Corrected conditional when statements and branch filters.
+    R: Deployment stage executed reliably.
+17	Build fails on ephemeral agent	S: Agent pod missing dependencies.
+    T: Fix ephemeral agent configuration.
+    A: Updated Docker image for Jenkins agent with required tools.
+    R: Ephemeral builds succeed every time.
+18	Artifact upload to S3 fails	S: Upload to S3 fails due to permissions.
+    T: Enable artifact storage.
+    A: Verified IAM role permissions, bucket policy, retried pipeline.
+    R: Artifacts uploaded reliably; builds succeeded.
+19	Docker image push rate limit exceeded	S: ECR push fails intermittently.
+    T: Reduce push errors.
+    A: Implemented retry logic, used caching, reduced unnecessary pushes.
+    R: Push success rate improved; pipeline stable.
+20	Concurrent builds cause conflicts	S: Two builds writing to same S3 path.
+    T: Avoid overwrite.
+    A: Added unique build IDs and artifact paths.
+    R: Concurrent builds now isolated; no conflicts.
+21	Hotfix needs urgent build	S: Critical bug reported in production.
+    T: Trigger build/deployment quickly.
+    A: Manually triggered hotfix pipeline, ran tests, deployed to production.
+    R: Bug fixed within hours; minimal downtime.
+22	Pipeline fails after Jenkins upgrade	S: Old pipeline breaks post-upgrade.
+    T: Restore pipeline functionality.
+    A: Updated plugin versions, tested pipeline on staging.
+    R: Pipeline works post-upgrade; stable builds resumed.

@@ -1,9 +1,9 @@
 resource "aws_instance" "my_ec2" {
-  ami                    = var.ami_id
-  instance_type          = var.instance_type
-  subnet_id              = aws_subnet.public_subnet.id
-  key_name               = var.key_name
-  vpc_security_group_ids = [aws_security_group.my_sg.id]
+  ami                         = var.ami_id
+  instance_type               = var.instance_type
+  subnet_id                   = aws_subnet.public_subnet.id
+  key_name                    = var.key_name
+  vpc_security_group_ids      = [aws_security_group.my_sg.id]
   associate_public_ip_address = true
 
   root_block_device {
@@ -88,6 +88,9 @@ resource "aws_instance" "my_ec2" {
       "sudo apt-get install -y jenkins",
       "sudo systemctl start jenkins",
       "sudo systemctl enable jenkins",
+
+      #Install maven
+      "sudo apt update && sudo apt install -y maven",
 
       #Jenkins initial password
       "ip=$(curl -s ifconfig.me)",

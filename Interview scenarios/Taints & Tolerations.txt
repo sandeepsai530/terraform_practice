@@ -1,0 +1,33 @@
+📌 Scenario:
+“We had GPU-enabled nodes in the cluster used only for ML workloads. We didn’t want random microservices
+ to get scheduled on those expensive GPU nodes.”
+
+📌 Task:
+“Ensure only ML workloads land on GPU nodes, while other apps avoid them.”
+
+📌 Action:
+
+Applied a taint on GPU nodes:
+
+kubectl taint nodes gpu-node gpu=true:NoSchedule
+
+
+Added toleration in ML job pod spec:
+
+tolerations:
+- key: "gpu"
+  operator: "Equal"
+  value: "true"
+  effect: "NoSchedule"
+
+
+📌 Result:
+“Non-ML apps were kept away from costly GPU nodes, ensuring cost efficiency and resource isolation.”
+
+INTERVIEW ANSWER 
+“In our EKS cluster, we used advanced scheduling techniques to optimize workloads. For example, our Kafka
+ cluster required SSD-backed nodes, so we used node affinity and pod anti-affinity to ensure brokers were
+  spread across SSD nodes without collocating on the same machine. In another case, we had GPU-enabled 
+  nodes for ML training, so we applied taints to those nodes and added tolerations in ML job pods. This 
+  way, only GPU workloads landed on GPU nodes, avoiding accidental scheduling of regular workloads on 
+  expensive hardware. These techniques improved reliability and reduced costs significantly.”

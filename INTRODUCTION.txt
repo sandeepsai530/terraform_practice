@@ -1,0 +1,38 @@
+“Hi, I’m [Your Name], and I have around 4.5 years of experience as a DevOps Engineer, primarily working 
+on AWS cloud, Kubernetes, and CI/CD automation.
+
+In my current role, I’m responsible for designing and maintaining end-to-end CI/CD pipelines using Jenkins
+ and ArgoCD, managing EKS clusters on AWS, and provisioning infrastructure with Terraform. I also work 
+ extensively with Docker, Helm, and ECR for container management and deployment.
+
+On the monitoring and observability side, I’ve implemented Prometheus, Grafana, and Loki for cluster-level
+ monitoring and logging, along with CloudWatch for AWS services. I also focus on cost optimization using
+  AWS Cost Explorer, Trusted Advisor, and Kubecost.
+
+My day-to-day activities include:
+
+Managing CI/CD pipelines and fixing build/deployment issues.
+
+Monitoring Kubernetes workloads (Pods, Deployments, HPA, PDBs) and ensuring application uptime.
+
+Performing infrastructure changes via Terraform and handling drift detection.
+
+Managing alerts and incidents – tuning alert rules to reduce noise.
+
+Performing EKS upgrades (control plane, node groups, and add-ons).
+
+Implementing RBAC, network policies, and security best practices for the cluster.
+
+Supporting developers with log analysis, debugging issues, and optimizing build times.
+
+Running cost optimization reviews and scaling strategies using autoscaling and Ingress consolidation.
+
+Overall, my role bridges development and operations, ensuring applications are delivered securely, 
+reliably, and cost-effectively.”
+
+🔹 Quick One-Liner Version (if panel says “Introduce yourself briefly”)
+
+“I’m [Your Name], a DevOps Engineer with 4.5 years of experience in AWS, Kubernetes, and CI/CD automation.
+ My daily work involves managing EKS clusters, automating deployments with Jenkins/ArgoCD, provisioning 
+ infrastructure with Terraform, and ensuring observability using Prometheus/Grafana/CloudWatch. I also 
+ actively work on incident management and cost optimization in AWS.”

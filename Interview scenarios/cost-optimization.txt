@@ -1,0 +1,122 @@
+Instead of 1 LoadBalancer per app, used a single ALB/Nginx Ingress for multiple apps.
+can you explain how this was achieved.
+
+🔹 Problem
+
+By default, when you expose every app with a Service of type LoadBalancer, AWS creates one ALB/NLB per service.
+
+Each ALB costs ~$18–20/month, plus data transfer.
+
+If you have 10 apps = 10 ALBs = big monthly bill.
+
+🔹 Solution: Use Ingress + Single ALB
+
+Instead of assigning each app its own LoadBalancer, we deploy one Ingress Controller (ALB or Nginx) and then configure Ingress rules to route traffic to multiple apps.
+
+🔹 How It Works
+1. Deploy Ingress Controller
+
+For AWS, you can use:
+
+AWS Load Balancer Controller (official ALB Ingress Controller)
+
+or NGINX Ingress Controller (with a single AWS NLB/ALB in front).
+
+This controller manages one ALB/NLB in your VPC.
+
+2. Define Multiple Services
+
+Each application still has its own ClusterIP Service (internal service).
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-service
+  namespace: prod
+spec:
+  selector:
+    app: app1
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-service
+  namespace: prod
+spec:
+  selector:
+    app: app2
+  ports:
+    - port: 80
+      targetPort: 8080
+
+3. Define Ingress Rules
+
+Now you tell the Ingress to route traffic based on hostnames or paths.
+
+Host-based routing
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: multi-app-ingress
+  namespace: prod
+  annotations:
+    kubernetes.io/ingress.class: alb   # or nginx
+spec:
+  rules:
+    - host: app1.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app1-service
+                port:
+                  number: 80
+    - host: app2.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app2-service
+                port:
+                  number: 80
+
+Path-based routing
+rules:
+  - host: myapps.example.com
+    http:
+      paths:
+        - path: /app1
+          pathType: Prefix
+          backend:
+            service:
+              name: app1-service
+              port:
+                number: 80
+        - path: /app2
+          pathType: Prefix
+          backend:
+            service:
+              name: app2-service
+              port:
+                number: 80
+
+🔹 Result
+
+1 ALB/NLB shared by multiple apps.
+
+Traffic is routed at L7 (host/path) → to correct service → to pods.
+
+Reduced AWS LoadBalancer cost by ~70–80% if you had many apps.
+
+👉 Example in interviews:
+“In our EKS cluster, each app initially had its own LoadBalancer. This cost added up quickly. We deployed
+ the AWS ALB Ingress Controller and consolidated multiple apps behind a single ALB. Using host-based 
+ routing, traffic to app1.example.com went to the App1 service, and app2.example.com went to the App2 
+ service. This reduced our ALB count from 8 to 1 and cut load balancer costs by almost 80%.”

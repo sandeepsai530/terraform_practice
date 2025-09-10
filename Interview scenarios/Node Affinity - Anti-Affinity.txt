@@ -1,0 +1,34 @@
+📌 Scenario:
+“In one project, we had both stateless microservices and a heavy Kafka cluster running on EKS. Kafka required high IOPS and SSD-backed nodes, while microservices were fine with general-purpose nodes. If they got mixed, Kafka performance dropped.”
+
+📌 Task:
+“Ensure Kafka pods always land on SSD nodes, and microservices are spread across other nodes.”
+
+📌 Action:
+
+Used node affinity with labels like nodeType=ssd for Kafka StatefulSets.
+
+Applied pod anti-affinity so Kafka brokers never landed on the same node (increasing HA).
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: nodeType
+          operator: In
+          values:
+          - ssd
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - kafka
+      topologyKey: "kubernetes.io/hostname"
+
+
+📌 Result:
+“Kafka got consistent performance, and HA improved since brokers were always spread across nodes.”
