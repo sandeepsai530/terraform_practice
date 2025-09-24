@@ -1,8 +1,8 @@
  resource "aws_launch_template" "asg_launch_template" {
     name = "asg-launch-template"
 
-    image_id = "ami-0360c520857e3138f"
-    instance_type = "t2.micro"
+    image_id = var.image_id
+    instance_type = var.instance_type
 
     network_interfaces {
       associate_public_ip_address = false 

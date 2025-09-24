@@ -1,5 +1,5 @@
 resource "aws_vpc" "asg_vpc" {
-  cidr_block = "100.0.0.0/16"
+  cidr_block = var.vpc_cidr_block
   tags = {
     Name = "asg-vpc"
   }
