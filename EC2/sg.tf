@@ -52,6 +52,23 @@ resource "aws_security_group" "my_sg" {
   }
 
   ingress {
+    description = "SMTP port"
+    from_port   = 25
+    to_port     = 25
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "SMTPS port"
+    from_port   = 465
+    to_port     = 465
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  
+  ingress {
     description = "kube API server"
     from_port   = 6443
     to_port     = 6443
